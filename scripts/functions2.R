@@ -304,3 +304,28 @@ deltaRSCU2 <- function (testH,testL,codonw,codon) {
 
         return(fusCOA)
 }
+
+# splitMat
+# This function requires FPKM table and CDS sequences corresponding to the genes present in the FPKM table.
+# Then this function output the CDS sequence belongs to each media into a seperate fasta file with FPKM >= 5.
+splitMat <- function(mat,Seq) {
+	tmp <- list()
+	fasta <- list()
+	for(i in 3:10) {
+		tmp[[i]] <- subset(mat,mat[,i] >= 5)[,c(1,2,i)]
+	}
+	names(tmp) <- c("NA","NA","RH1","RH2","RH3","RH4","RH5","RH6","RH7","RH8")
+
+	for(i in 3:10) {
+		fasta[[i]] <- Seq[tmp[[i]][[1]]]
+	}
+	names(fasta) <- c("NA","NA","RH1","RH2","RH3","RH4","RH5","RH6","RH7","RH8")
+
+	lapply(seq(1:10), function(x) {
+		print(x)
+		writeXStringSet(DNAStringSet(fasta[[x]]),paste(names(fasta)[x],"fpkm5.fasta",sep="."))
+	})
+}
+# End of splitMat
+#
+#
