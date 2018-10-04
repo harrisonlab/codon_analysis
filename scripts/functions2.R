@@ -329,3 +329,28 @@ splitMat <- function(mat,Seq) {
 # End of splitMat
 #
 #
+# top100
+# This function requires FPKM table and output the list of top 100 genes in both weakly and highly expressed
+top100 <- function (mat) {
+  top100H <- list()
+	top100L <- list()
+	top100Mat <- list()
+
+	for(i in 3:10) {
+		top100H[[i]] <- tail(mat[[1]][[i]][order(mat[[1]][[i]][,3]),],100)
+	}
+	names(top100H) <- c("NA","NA","RH1","RH2","RH3","RH4","RH5","RH6","RH7","RH8")
+
+	for(i in 3:10) {
+		top100L[[i]] <- head(mat[[2]][[i]][order(mat[[2]][[i]][,3]),],100)
+	}
+	names(top100L) <- c("NA","NA","RH1","RH2","RH3","RH4","RH5","RH6","RH7","RH8")
+
+	top100Mat[[1]] <- top100H
+	top100Mat[[2]] <- top100L
+	names(top100Mat) <- c("High","Low")
+
+	return(top100Mat)
+
+}
+# End of top100 #
