@@ -46,19 +46,19 @@ extractSeq <- function(ids,fasta) {
 #
 #
 # calRSCU function calculates RSCU values for each of the codon of each sequence and creates a matrix
-# Usage: testMat <- calRSCU("test.fa")
-#calRSCU <- function(fasta) {
-#	#Seq <- readDNAStringSet(fasta)
-#	Seq <- fasta
-#	SeqMat <- c()
-#	for(i in 1:length(Seq)) {
-#		SeqMat <- cbind(SeqMat, SADEG.RSCU(Seq[i]))
-#	}
-#	SeqMat <- t(SeqMat)
-#	rownames(SeqMat) <- names(Seq)
-#	SeqMat <- SeqMat[,-c(38,55,62,63,64)]
-#	return(SeqMat)
-#}
+# Usage: testMat <- calRSCU(test.fa)
+calRSCU <- function(fasta) {
+  Seq <- readDNAStringSet(fasta)
+	Seq <- fasta
+	SeqMat <- c()
+	for(i in 1:length(Seq)) {
+		SeqMat <- cbind(SeqMat, SADEG.RSCU(Seq[i]))
+	}
+	SeqMat <- t(SeqMat)
+	rownames(SeqMat) <- names(Seq)
+	SeqMat <- SeqMat[,-c(38,55,62,63,64)]
+	return(SeqMat)
+}
 # End of calRSCU #
 #
 #
