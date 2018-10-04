@@ -1,5 +1,6 @@
 args = commandArgs(trailingOnly=TRUE)
 
+# check for arguments
 if (length(args) < 3) {
   stop("**************************************** \n
        Three arguments must be supplied \n
@@ -16,11 +17,8 @@ source("functions2.R")
 
 # Load files
 mygenes = readDNAStringSet(args[1])
-#print(head(mygenes))
 myfpkm <- read.table(args[2])
-#print(head(myfpkm))
 codonw = read.delim(args[3],header = FALSE,sep="\n",quote="",stringsAsFactors = FALSE)
-#print(head(codonw))
 
 # Calculate average FPKM per condition
 RH <- cbind(myfpkm[,c(1,2)],
@@ -35,38 +33,18 @@ RH <- cbind(myfpkm[,c(1,2)],
 )
 colnames(RH) <- c("GeneID","Length","RH1_mean","RH2_mean","RH3_mean","RH4_mean","RH5_mean","RH6_mean","RH7_mean","RH8_mean")
 
-#print(head(RH))
-print(dim(RH))
-
+# Extract IDs from FPKM table
 ids <- extractID(RH)
-
-#print(head(ids))
-print(length(ids))
 
 # Extract CDS sequences
 Seq <- extractSeq(ids,mygenes)
-print("++++++++++++++++++++++++++++++++++++")
-print(length(Seq))
-print(length(Seq[[1]]))
-print(length(Seq[[2]]))
-print(head(Seq[[1]][[3]]))
-print("++++++++++++++++++++++++++++++++++++")
 
+# Calculate RSCU values
 matH <- lapply(Seq[[1]], function(x) {lapply(x,SADEG.RSCU)})
 
 matL <- lapply(Seq[[2]], function(x) {lapply(x,SADEG.RSCU)})
 
-print("======================================")
-
-#print(head(matH))
-#print(head(matL))
-
-print(length(matH))
-print(length(matL))
-print("======================================")
-
-#codon <- names(matH[[3]][[1]])
-
-#print(codon)
-
+# Process the extracted RSCU values and calculate deltaRSCU for both highly and weakly expressing genes.
 processMat2(matH=matH,matL=matL,codonw=codonw)
+
+# End of program
