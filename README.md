@@ -1,2 +1,3 @@
 # codon_analysis
-The folder contains scripts used to perform codon analysis and mainly used for Fusarium venenatum
+The folder contains scripts used to align the Illumina read data to the reference assembly of Fv generated using minION, codon analysis.
+
